@@ -1,4 +1,4 @@
-package beans;
+package models;
 
 public class MockDao {
 
