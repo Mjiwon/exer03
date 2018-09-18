@@ -12,7 +12,7 @@
 	<div align="center">
 		<h1># MVC #</h1>
 		<div>
-			<a href="<%=application.getContextPath() %>/login.do">회원 인증</a>
+			<a href="<%=application.getContextPath() %>/session.do">회원 인증</a>
 			| 
 			<a href="<%=application.getContextPath() %>/join.do">회원 가입</a>
 		</div>

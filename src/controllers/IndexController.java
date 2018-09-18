@@ -38,6 +38,9 @@ public class IndexController extends HttpServlet{
 			rd.forward(req, resp);	// *개인필기 : forward가 다른페이지로 넘겨서 응답을 만들어내는데 사용하는 것(?)
 		}else {
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/home.jsp");	// *개인필기 : req.getRequestDispatcher(""); 안에는 view로 설정할 페이지명(이동시켜야할 페이지)을 작성하면 된다.
+			String id = (String)session.getAttribute("id");
+			System.out.println("로그인아이다"+id);
+			session.setAttribute("id", id);
 			rd.forward(req, resp);
 		}
 	}

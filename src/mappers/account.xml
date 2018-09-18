@@ -5,7 +5,7 @@
 		insert into account values(#{id}, #{pass}, #{name}, #{gender})
 	</insert>
 	
-	<select id="checkid" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="getMemberId" resultType="java.lang.String" parameterType="java.lang.String" >
 		select id from account where id = #{id}
 	</select>
 	

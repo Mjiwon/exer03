@@ -24,14 +24,14 @@
 			};
 		</script>
 		<div style="margin-left: 10%; margin-right: 10%; text-align: left;">
-		<form action="" method="post" autocomplete="off" >
+		<form action="login.do" method="post" autocomplete="off" >
 			<p>
 				<b>계정 아이디</b><br/>
-				<input type="text" name="" placeholder="account id" style="width: 99%;"/>
+				<input type="text" name="logid" placeholder="account id" style="width: 99%;"/>
 			</p>
 			<p>
 				<b>계정 비밀번호</b><br/>	
-				<input type="password" name="" placeholder="account pass" style="width: 99%;"/>
+				<input type="password" name="logpass" placeholder="account pass" style="width: 99%;"/>
 			</p>
 			<p>
 				<button type="submit" style="width: 100%;">로그인</button>

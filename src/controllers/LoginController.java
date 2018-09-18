@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,30 +12,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import models.*;
+import models.AccountDao;
 
 @WebServlet("/login.do")
 public class LoginController extends HttpServlet{
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp"); 
+		rd.forward(req, resp);
+	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("id");
-		String pass = req.getParameter("pass");
+		HttpSession session=req.getSession();
+		String id = req.getParameter("logid");
+		String pass = req.getParameter("logpass");
 		
+		AccountDao aDao = new AccountDao();
+		Map map = new HashMap<>();
+		map.put("id", id);
+		map.put("pass", pass);
 		
-		
-		
-		
-		/*if(Math.random()>0.9) {// 이곳에 DB작업을 해야한다.
-			HttpSession session = req.getSession();
-			session.setAttribute("auth",true);
+		boolean b = aDao.logcheck(map);
+		System.out.println("결과"+b);
+		if(b) {
+			session.setAttribute("auth", true);
+			session.setAttribute("id", id);
+			resp.sendRedirect(req.getContextPath()+"/index.do");
 			
-			resp.sendRedirect(req.getContentType()+"/index.do");
 		}else {
-			req.setAttribute("err",true);		//	*개인필기 :  req에 setAttribute 하는 것은 일회성 컨트롤러에서 view로 연결할 때까지만 유지된다.
-			// MVC패턴 구현 시 view 출력 시 사용해야 될 데이터를 설정하는 영역
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp");
+			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp"); 
 			rd.forward(req, resp);
-		}*/
+		}
 	}
 }

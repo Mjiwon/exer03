@@ -28,11 +28,11 @@ public class AccountDao extends MyBatisDao{
 	public boolean checkId(String a) {
 		SqlSession sql = factory.openSession();
 		try {
-			String i = sql.selectOne("account.checkid",a);
-			if(i!=null) {
-				return false;
-			}else {
+			String i = sql.selectOne("account.getMemberId",a);
+			if(i==null) {
 				return true;
+			}else {
+				return false;
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -44,6 +44,7 @@ public class AccountDao extends MyBatisDao{
 		SqlSession sql = factory.openSession();
 		try {
 			List m = sql.selectList("account.logMember",a);
+			System.out.println("M¿Ã¥Ÿ!!"+m);
 			if(m!=null) {
 				return true;
 			}else {

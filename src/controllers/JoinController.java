@@ -17,20 +17,32 @@ import models.AccountDao;
 public class JoinController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.sendRedirect(req.getContextPath()+"/views/join.jsp");
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/join.jsp");
+		req.setAttribute("id", "");
+		req.setAttribute("pass", "");
+		req.setAttribute("name", "");
+		rd.forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("id");
-		String pass = req.getParameter("pass");
-		String name = req.getParameter("name");
-		String gender = req.getParameter("gender");
+		
+		String id = req.getParameter("joinid");
+		String pass = req.getParameter("joinpass");
+		String pass2 = req.getParameter("joinpass2");
+		String name = req.getParameter("joinname");
+		String gender = req.getParameter("joingender");
+		System.out.println(id+" / "+pass+" / "+name+" / "+gender+" / ");
 		
 		AccountDao aDao = new AccountDao();
 		boolean r = aDao.checkId(id);
-		if(name.contains(" ")||!name.matches("[°¡-ÆR]+")||!id.matches("\\w{4,12}")||!pass.matches("\\w{4}")){
+		System.out.println(r);
+		
+		if(name.contains(" ")||!name.matches("[°¡-ÆR]+")||!id.matches("\\w{4,12}")||!pass.matches("\\w{4}")||pass!=pass2){
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/join.jsp");
+			req.setAttribute("id", id);
+			req.setAttribute("pass", pass);
+			req.setAttribute("name", name);
 			rd.forward(req, resp);
 		}else {
 			if(r) {
@@ -41,18 +53,19 @@ public class JoinController extends HttpServlet{
 				map.put("gender", gender);
 				
 				int i = aDao.addMember(map);
+				System.out.println("i = "+i);
 				if(i==1) {
-					RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp");
-					
+					resp.sendRedirect(req.getContextPath()+"/index.do");
 					System.out.println("°¡ÀÔ¼º°ø");
 				}else{
+					RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/join.jsp");
+					req.setAttribute("id", id);
+					req.setAttribute("pass", pass);
+					req.setAttribute("name", name);
+					rd.forward(req, resp);
 					System.out.println("°¡ÀÔ½ÇÆÐ");
 				}
 			}
 		}
-		
-		
-		
-		
 	}
 }
