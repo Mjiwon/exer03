@@ -15,8 +15,9 @@
    <div align="center">
       <h1># MVC</h1>
       <div align="right" style="margin-right: 10%; margin-left: 10%; font-size: small;">
-         <b><%=session.getAttribute("id") %></b>,  로그온 |
-         <a href="<%=application.getContextPath() %>/logout.do">로그오프</a>
+      	<a href="<%=application.getContextPath()%>/issue/trend.do">이슈</a> 
+         [ <b><%=session.getAttribute("id") %></b>,  로그온 |
+         <a href="<%=application.getContextPath() %>/logout.do">로그오프</a> ]
          <hr/>
       </div>
       <div style="margin-right: 10%; margin-left: 10%;">

@@ -33,14 +33,14 @@ public class LoginController extends HttpServlet{
 		map.put("id", id);
 		map.put("pass", pass);
 		
-		boolean b = aDao.logcheck(map);
+		Map b = aDao.logcheck(map);
 		System.out.println("°á°ú"+b);
-		if(b) {
+		if(b!=null) {
 			session.setAttribute("auth", true);
 			session.setAttribute("id", id);
 			resp.sendRedirect(req.getContextPath()+"/index.do");
-			
 		}else {
+			session.setAttribute("err", true);
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/login.jsp"); 
 			rd.forward(req, resp);
 		}

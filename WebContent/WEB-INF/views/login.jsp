@@ -17,7 +17,10 @@
 		<h1>〔로그인〕</h1>
 		<p id="msg"
 			style="font-size: small; color: red; ">
-			아이디나 비밀번호가 일치하지 않습니다. <b>［x］</b></p>
+			<%if(session.getAttribute("err")!=null) {%>
+			아이디나 비밀번호가 일치하지 않습니다. <b>［x］</b>
+			<%} %>
+		</p>
 		<script>
 			document.getElementById("msg").onclick = function() {
 				this.style.display = "none";

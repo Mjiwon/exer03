@@ -40,19 +40,16 @@ public class AccountDao extends MyBatisDao{
 		}
 	}
 	
-	public boolean logcheck(Map a) {
+	public Map logcheck(Map a) {
 		SqlSession sql = factory.openSession();
 		try {
-			List m = sql.selectList("account.logMember",a);
-			System.out.println("M¿Ã¥Ÿ!!"+m);
-			if(m!=null) {
-				return true;
-			}else {
-				return false;
-			}
+			
+			Map mp = sql.selectOne("account.logMember",a);
+
+			return mp;
 		}catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 	
