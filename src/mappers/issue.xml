@@ -9,8 +9,8 @@
 		select * from issue order by regdate desc
 	</select>
 	
-	<select id="getissuedetail" parameterType="java.lang.String"  resultType="java.util.HashMap">
-		select * from issue where = #{no}
+	<select id="getissuedetail" parameterType="java.lang.Number"  resultType="java.util.HashMap">
+		select * from issue where no = #{no}
 	</select>
 	
 </mapper>

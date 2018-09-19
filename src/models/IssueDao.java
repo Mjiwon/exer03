@@ -37,6 +37,17 @@ public class IssueDao extends MyBatisDao{
 		}
 	}
 	
+	public Map getIssuelistDetail(Number no) {
+		SqlSession sql = factory.openSession();
+		try {
+			Map map = sql.selectOne("issue.getissuedetail",no);
+			return map;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 
 }
