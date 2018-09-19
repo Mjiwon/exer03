@@ -5,5 +5,7 @@
 		insert into opinion values(opinion_seq.nextval, #{choice}, #{ment}, #{talker}, #{ino})
 	</insert>
 	
-	
+	<select id="getAllcoment" resultType="java.util.HashMap">
+		
+	</select>
 </mapper>

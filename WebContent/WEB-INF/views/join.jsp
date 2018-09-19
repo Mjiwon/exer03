@@ -53,7 +53,7 @@
 			</form>
 			<script>
 			var ar = [false,false,false,false];
-			var ar = [true,true,true,true];
+			//var ar = [true,true,true,true];
 			var vaild = function() {
 				console.log(ar);
 				if(ar.includes(false)) {

@@ -11,10 +11,10 @@
 	}else{
 		title=cont;
 	}
-	System.out.println("제목은 "+title);
 	String agree = (String)issue.get("AGREE");
 	String disagree = (String)issue.get("DISAGREE");
 	Number no = (Number)issue.get("NO");
+	System.out.println("agree "+agree);
 	
 	session.setAttribute("ino", no);
 	
@@ -89,7 +89,7 @@
 			req.onreadystatechange=function(){
 				var x = document.getElementById("coments");
 				if(this.readyState==4){
-					if(this.responseText.trime() == "true"){
+					if(this.responseText == "true"){
 						console.log(this.responseText);
 						window.alert("등록되었습니다.\n새로고침을 눌러주세요.");
 						document.getElementById("comen").innerHTML = "";
