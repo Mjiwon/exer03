@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -15,18 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
 import models.IssueDao;
 import models.OpinionDao;
 
-@WebServlet("/issue/detail.do")
-public class DetailController extends HttpServlet{
+
+public class DetailController2 extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		int no = Integer.parseInt(req.getParameter("no"));
-		
 		IssueDao iDao = new IssueDao();
 		OpinionDao odao = new OpinionDao();
 		List<Map> opinions = odao.getSomeByIno(no);
@@ -39,33 +35,36 @@ public class DetailController extends HttpServlet{
 			req.setAttribute("issue", a);
 			req.setAttribute("opinions", opinions);
 			rd.forward(req, resp);
-
+/*			System.out.println("들어와???");
+			resp.setContentType("application.json;charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print(a);*/
 		}
 	}
 	
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 아래 내용들은 OpinionController.java로 옮겼다.
-		BufferedReader br = req.getReader();	// *개인필기 : 포스트일때만 작동
-		String line = br.readLine();
-		Gson gson = new Gson();
-		Map map = gson.fromJson(line, Map.class);	// *개인필기 : 날라온 글이 배열이면 배열로 객체면 맵으로.
-		
 		HttpSession session = req.getSession();
 		
+		String choice = req.getParameter("choice");
+		String ment = req.getParameter("ment");
 		Number ino = (Number)session.getAttribute("ino");
-		String talker = (String)session.getAttribute("id");		
-
-		map.put("ino", ino);
-		map.put("talker", talker);
+		String talker = (String)session.getAttribute("id");
+				
+		Map m = new HashMap<>();
+		m.put("choice", choice);
+		m.put("ment", ment);
+		m.put("ino", ino);
+		m.put("talker", talker);
 		
 		
 		resp.setContentType("application/json;charset=utf-8");
 		PrintWriter out = resp.getWriter();
 
 		OpinionDao oDao = new OpinionDao();
-		int i = oDao.addComent(map);
+		int i = oDao.addComent(m);
+		System.out.println("왜!!!" + choice + "  /  " +ment + " / " + ino + " / " +  talker);
 
 		if(i==1) {
 			out.print(true);
@@ -73,6 +72,21 @@ public class DetailController extends HttpServlet{
 			out.print(false);
 		}
 	}
-
+	//	@Override
+//	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		Number no = Integer.parseInt(req.getParameter("no"));
+////		String no = req.getParameter("no");
+//		
+//		System.out.println("넘버"+no);
+//		IssueDao iDao = new IssueDao();
+//		Map m = iDao.getIssuelistDetail(no);
+//		if(m==null) {
+//			resp.sendRedirect(req.getContextPath()+"/issue/trend.do");
+//		}else {
+//			req.setAttribute("m", m);
+//			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/detail.jsp");
+//			rd.forward(req, resp);
+//		}
+//	}
 
 }

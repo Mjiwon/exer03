@@ -19,7 +19,7 @@ public class NewController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();
-		session.removeAttribute("fail");
+
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/new.jsp");	//
 		rd.forward(req, resp);
 	}
@@ -46,7 +46,7 @@ public class NewController extends HttpServlet{
 		if(i == 1) {
 			resp.sendRedirect(req.getContextPath()+"/issue/trend.do");
 		}else {
-			session.setAttribute("fail", true);
+			req.setAttribute("fail", true);
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/new.jsp"); 
 			rd.forward(req, resp);
 		}

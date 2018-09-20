@@ -23,6 +23,8 @@ public class IssueDao extends MyBatisDao{
 		}catch(Exception e) {
 			e.printStackTrace();
 			return -1;
+		}finally {
+			sql.close();
 		}
 	}
 	
@@ -34,6 +36,8 @@ public class IssueDao extends MyBatisDao{
 		}catch(Exception e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			sql.close();
 		}
 	}
 	
@@ -45,6 +49,8 @@ public class IssueDao extends MyBatisDao{
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}finally {
+			sql.close();
 		}
 	}
 	

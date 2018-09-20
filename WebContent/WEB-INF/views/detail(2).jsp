@@ -66,12 +66,17 @@
 			</select>
 			<input type="text" style="width: 80%" onchange="opinionAjax();" id="ment"/>
 			</p>
-<script>		
+<script>
+			//	var writer = "<%=((Map)session.getAttribute("user")).get("ID") %>";
+				
 				var ino = <%=issue.get("NO")%>;
 				var opinionAjax = function() {
 					if(document.getElementById("ment").value.trim().length >0) {
 						var xhr = new XMLHttpRequest();
+						var param = "choice="+document.getElementById("choice").value;
+							param += "&ment="+document.getElementById("ment").value;
 						xhr.open("post","<%=application.getContextPath()%>/issue/opinion.do", true);
+						xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");   // *개인필기 : get으로 보낼 땐 상관없지만 post로 보낼땐 바꿔서 보내야 한다.
 						xhr.onreadystatechange =function(){
 							if(this.readyState==4) {
 								var obj = JSON.parse(this.responseText);
@@ -86,12 +91,6 @@
 								}
 							}
 						}
-						var param = {
-							"ment":document.getElementById("ment").value, 
-							"choice" : document.getElementById("choice").value
-							};
-						var param =JSON.stringify(param);
-
 						xhr.send(param);
 					}
 				};
@@ -101,18 +100,17 @@
 		
 		<div style="margin-right: 10%; margin-left: 10%; text-align: left; margin-top: 	35px;">
 			<p>
-				<b>〔전체의견 / <span><%=((List)request.getAttribute("opinions")).size() %></span>〕</b>
-				<small id="time">10</small>초 후 갱신<br/>
+				<b>〔전체의견 / <span><%=((List)request.getAttribute("opinions")).size() %></span>〕</b><br/>
 			</p>
 			<%
 				List<Map> ops = (List<Map>)request.getAttribute("opinions");
 			%>
-			<ul style="list-style: none; font-size: smaller;" id="ments">
+			<ul style="list-style: none; font-size: smaller;">
 				<%for(int i=0; i<ops.size(); i++){ 
 						Map e = ops.get(i);
 					%>
-				<li >
-				<%if(((Number)e.get("CHOICE")).intValue() == 1) {%>
+				<li>
+					<%if(((Number)e.get("CHOICE")).intValue() == 1) {%>
 						<b style="color:blue">YES</b>
 					<%}else { %>
 						<b style="color:red">NO</b>
@@ -121,41 +119,6 @@
 				</li>
 				<%} %>
 			</ul>
-			<script>
-			var latestAjax = function(){
-				var xhr = new XMLHttpRequest();
-					xhr.open("get","<%=application.getContextPath()%>/issue/opinion.do?ino=<%=session.getAttribute("ino")%>", true);
-					xhr.onreadystatechange =function(){
-						if(this.readyState == 4){
-							var html = "";
-							var obj =  JSON.parse(this.responseText);
-							// 받아온 객체 배열을 가지고 원래 찍어두던 형태의 HTML을 만들어서
-							// 위영역에 innerHTML로 세팅
-							for(var i = 0; i<obj.length;i++){
-								 html +="<li>"
-								 html +=obj[i].CHOICE == 1? ("<b style=\"color:blue\">YES </b>" +obj[i].MENT) : ("<b style=\"color:red\">NO </b>" +obj[i].MENT ) ;
-								 html +="</li>";
-							}
-							document.getElementById("ments").innerHTML = html;					
-							document.getElementById("ajaxresult").innerHTML = "";
-							console.log(html);
-						}
-				}						
-					xhr.send();
-			};
-			
-			var time = 10;
-			window.setInterval( function(){
-				time --;
-				document.getElementById("time").innerHTML = time;
-				if(time==0){
-					latestAjax();
-					time=10;
-				}
-			},1000);	
-			// *개인필기 :  whindow.setInterval(latestAjax, 10000) 10초에 한번씩 호출하는 것
-			//					136~143은 1초에 한번씩 저방식은 10,9,8,7,6,5,4,3,2,1 을 알려줄 수 있다.
-			</script>
 		</div>
 	</div>
 	

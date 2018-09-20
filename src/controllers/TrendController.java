@@ -20,14 +20,19 @@ public class TrendController extends HttpServlet{
 		IssueDao iDao = new IssueDao();
 		
 		List<Map> list = iDao.getissuelist();
-		if(list.size()==0) {
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/trend.jsp");
-			rd.forward(req, resp);			
-		}else {
+		for(int i = 0; i<list.size();i++) {
+			Map p = list.get(i);
+			String ctr = (String)p.get("CONTENT");
+			if(ctr.contains("\n")) {
+				p.put("REP", ctr.substring(0,ctr.indexOf("\n")));
+			}else {
+				p.put("REP", ctr);
+			}
+		}
 			req.setAttribute("list", list);
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/trend.jsp");
 			rd.forward(req, resp);			
-		}
+		
 		
 	}
 }

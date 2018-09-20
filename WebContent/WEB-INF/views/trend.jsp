@@ -32,10 +32,10 @@
 			<div style="margin-bottom: 15px;" 
 					onmouseenter="highlight(this, true);" onmouseleave="highlight(this, false)">
 				<p style="text-align: right; color: gray; font-size: small;" >
-					생활 / 1,211 의견 / <%=sdf.format(list.get(i).get("REGDATE")) %> 
+					<%=list.get(i).get("CATE") %> / 1,211 의견 / <%=sdf.format(list.get(i).get("REGDATE")) %> 
 				</p>
 				<p>
-					<a href="<%=application.getContextPath() %>/issue/detail.do?no=<%=list.get(i).get("NO") %>"> <b>ISSUE.</b> <%= list.get(i).get("CONTENT") %></a>
+					<a href="<%=application.getContextPath() %>/issue/detail.do?no=<%=list.get(i).get("NO") %>"> <b>ISSUE.</b> <%= list.get(i).get("REP") %></a>
 				</p>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 		<script>
 			var highlight = function(t, e){
 				if(e)
-					t.style.background ="Azure";
+					t.style.background ="pink";
 				else
 					t.style.background ="white";
 			}

@@ -36,9 +36,9 @@ public class JoinController extends HttpServlet{
 		
 		AccountDao aDao = new AccountDao();
 		boolean r = aDao.checkId(id);
-		System.out.println(r);
+		System.out.println("³Ê" + r);
 		
-		if(name.contains(" ")||!name.matches("[°¡-ÆR]+")||!id.matches("\\w{4,12}")||!pass.matches("\\w{4}")||pass!=pass2){
+		if(name.contains(" ")||!name.matches("[°¡-ÆR]+")||!id.matches("\\w{4,12}")||!pass.matches("\\w{4}")||!pass.equals(pass2)){
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/join.jsp");
 			req.setAttribute("id", id);
 			req.setAttribute("pass", pass);

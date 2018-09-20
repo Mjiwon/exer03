@@ -5,7 +5,7 @@
 		insert into opinion values(opinion_seq.nextval, #{choice}, #{ment}, #{talker}, #{ino})
 	</insert>
 	
-	<select id="getAllcoment" resultType="java.util.HashMap">
-		
+	<select id="getSomeByIno" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+		 select * from opinion where ino=#{ino} order by no asc
 	</select>
 </mapper>
