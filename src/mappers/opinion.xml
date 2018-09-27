@@ -11,7 +11,7 @@
 	
 	
 	<select id="getSomeByTalker" resultType="java.util.HashMap" parameterType="java.lang.String">
-		select * from issue right join( select * from opinion where talker = #{talker} and rownum&lt;=3) t1 on t1.ino = issue.no;
+		select * from issue right join( select * from opinion where talker = #{talker} and rownum&lt;=3) t1 on t1.ino = issue.no
 		<!-- select * from (select * from(select * from (select * from issue join opinion on issue.no = opinion.ino) where talker = #{talker} )order by regdate desc)where rownum between 1 and 3 -->
 	</select>
 	

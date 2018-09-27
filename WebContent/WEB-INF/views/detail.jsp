@@ -1,6 +1,7 @@
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	Map issue = (Map)request.getAttribute("issue");
 	String cont = (String)issue.get("CONTENT");
@@ -26,32 +27,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MVC</title>
 <link rel="stylesheet"
-	href="<%=application.getContextPath()%>/css/style.css" />
+	href="${pageContext.servletContext.contextPath }/css/style.css" />
 </head>
 <body>
 	<div align="center">
 		<h1># MVC</h1>
 		<div align="right"
 			style="margin-right: 10%; margin-left: 10%; font-size: small;">
-			<a href="<%=application.getContextPath()%>/issue/trend.do">이슈</a> 
-         [ <b><%=session.getAttribute("id") %></b>,  로그온 |
-         <a href="<%=application.getContextPath() %>/logout.do">로그오프</a> ]
+			<a href="${pageContext.servletContext.contextPath }/issue/trend.do">이슈</a> 
+         [ <b>${sessionScope.id }</b>,  로그온 |
+         <a href="${pageContext.servletContext.contextPath }/logout.do">로그오프</a> ]
 			<hr />
 		</div>
 		<h2>【토론배틀】</h2>
 		<small style="font-style: italic;">찬성이냐, 반대냐 그것이 문제로다!</small>
 		<div style="margin-right: 10%; margin-left: 10%; text-align: left;">
-			<h3 id="nos">#<%=no %>. <%=title %></h3>
+			<h3 id="nos">${issue.NO }. ${issue.REP }</h3>
 			<p>
 				<%=cont.replace("\n", "<br/>") %>
 			</p>
 		</div>
 		<div style="margin-right: 10%; margin-left: 10%; text-align: left; margin-top: 	55px; font-size: small;">
 			<p style="color: blue">
-				<b>YES</b> <%=agree %> <span>221</span> 명 
+				<b>YES</b> ${issue.AGREE } [<span>${opinionCount[0].CNT}</span>] 명 
 			</p>
 			<p style="color: red">
-				<b>NO</b> <%=disagree %> <span>721</span> 명 
+				<b>NO</b> ${issue.DISAGREE} [<span>${opinionCount[1].CNT}</span>] 명 
 			</p>
 		</div>
 		
@@ -108,18 +109,30 @@
 				List<Map> ops = (List<Map>)request.getAttribute("opinions");
 			%>
 			<ul style="list-style: none; font-size: smaller;" id="ments">
-				<%for(int i=0; i<ops.size(); i++){ 
+			<%-- 	<%for(int i=0; i<ops.size(); i++){ 
 						Map e = ops.get(i);
-					%>
-				<li >
-				<%if(((Number)e.get("CHOICE")).intValue() == 1) {%>
+					%> --%>
+				<c:forEach var="i" items="${opinions }">
+				<li>
+				<c:choose>
+					<c:when test="${i.CHOICE == '1'}">
+						<b style="color:blue">YES</b>
+					</c:when>
+					<c:otherwise>
+						<b style="color:red">NO</b>
+					</c:otherwise>
+					${i.MENT }
+				</c:choose>
+				</li>
+				</c:forEach>
+				<%-- <%if(((Number)e.get("CHOICE")).intValue() == 1) {%>
 						<b style="color:blue">YES</b>
 					<%}else { %>
 						<b style="color:red">NO</b>
 					<%} %>
 					<%=e.get("MENT") %>
 				</li>
-				<%} %>
+				<%} %> --%>
 			</ul>
 			<script>
 			var latestAjax = function(){

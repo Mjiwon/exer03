@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import handler.ContentHandler;
 import models.IssueDao;
 import models.OpinionDao;
 
@@ -26,11 +27,25 @@ public class DetailController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		int no = Integer.parseInt(req.getParameter("no"));
+		ContentHandler ch = new ContentHandler();
 		
 		IssueDao iDao = new IssueDao();
 		OpinionDao odao = new OpinionDao();
 		List<Map> opinions = odao.getSomeByIno(no);
-		Map a = iDao.getIssuelistDetail(no);
+		List<Map> opinionCount = odao.getCountByChoice(no);
+		String cnt ="";
+		for(int i = 0; i<opinionCount.size();i++) {
+			Map m = opinionCount.get(i);
+			if(!m.containsKey("CNT")) {
+				cnt = "0";
+				m.put("CNT", cnt);
+			}else {
+				cnt = String.valueOf(m.get("CNT"));
+				m.put("CNT", cnt);
+			}
+		}
+		
+		Map a = ch.contMapSubString(iDao.getIssuelistDetail(no));
 
 		if(a==null) {
 			resp.sendRedirect(req.getContextPath()+"/issue/trend.do");
@@ -38,8 +53,9 @@ public class DetailController extends HttpServlet{
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/detail.jsp");
 			req.setAttribute("issue", a);
 			req.setAttribute("opinions", opinions);
+			System.out.println(opinions);
+			req.setAttribute("opinionCount", opinionCount);
 			rd.forward(req, resp);
-
 		}
 	}
 	
@@ -66,7 +82,8 @@ public class DetailController extends HttpServlet{
 
 		OpinionDao oDao = new OpinionDao();
 		int i = oDao.addComent(map);
-
+		
+		
 		if(i==1) {
 			out.print(true);
 		}else {
