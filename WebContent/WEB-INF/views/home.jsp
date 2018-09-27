@@ -2,17 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="models.*" %>
-<%
-	String id = (String)session.getAttribute("id");
-
-	IssueDao is = new IssueDao();
- 	List<Map> list = is.yesterIssue();
-	
- 	OpinionDao od = new OpinionDao();
- 	List<Map> oList = od.sumOpinions();
-	
- 	List<Map> mlist = od.myOpinios(id);
-%>
+<%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +16,7 @@
       <h1># MVC</h1>
       <div align="right" style="margin-right: 10%; margin-left: 10%; font-size: small;">
       	<a href="<%=application.getContextPath()%>/issue/trend.do">이슈</a> 
-         [ <b><%=session.getAttribute("id") %></b>,  로그온 |
+         [ <b>${sessionScope.id }</b>,  로그온 |
          <a href="<%=application.getContextPath() %>/logout.do">로그오프</a> ]
          <hr/>
       </div>
@@ -38,9 +28,18 @@
       <div style="margin-right: 10%; margin-left: 10%;" align="left">
          <h3>최근 등록된 새로운 이슈 !</h3>
          <ul>
-          <%if(list.size()==0){
+         <c:choose>
+         	<c:when test="${empty sessionScope.someRecent }">
+	        	 <li>24 시간 이내 등록된 이슈가 없습니다</li>     	
+         	</c:when>
+         	<c:otherwise>
+         		<c:forEach var="i" items="${sessionScope.someRecent}">
+         			${i }
+         		</c:forEach>
+         	</c:otherwise>
+         </c:choose>
+ <%--          <%if(list.size()==0){
         	 %>
-        	 <li>24 시간 이내 등록된 이슈가 없습니다</li>
          <%}else{ %>
 	         <%for(int i =0; i<list.size();i++){ 
 	        	 Map li = list.get(i);
@@ -95,7 +94,7 @@
 	        	 }  %>
 	        	<li> <a href="<%=application.getContextPath() %>/issue/detail.do?no=<%=li.get("NO") %>"> <b>#ISSUE.</b> <%=title %></a><br> <small style="color: orange;"> MYCOMENT : <%=li.get("MENT") %></small></li>
 	         <%} %>
-        <% }%>
+        <% }%> --%>
          </ul>
       </div>
       

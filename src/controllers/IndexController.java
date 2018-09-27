@@ -43,8 +43,21 @@ public class IndexController extends HttpServlet{
 		}else {
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/home.jsp");	// *개인필기 : req.getRequestDispatcher(""); 안에는 view로 설정할 페이지명(이동시켜야할 페이지)을 작성하면 된다.
 			String id = (String)session.getAttribute("id");
-
-
+			
+			IssueDao is = new IssueDao();
+			List<Map> someRecent = is.getSomeRecent();
+			List<Map> oneHot = is.getOneHot();
+			List<Map> allOpinion = is.getAllWithOpinionCount();
+			
+			session.setAttribute("someRecent", someRecent);
+			session.setAttribute("someRecentEnd", someRecent.size()-1);
+			
+			session.setAttribute("oneHot", oneHot);
+			session.setAttribute("oneHotEnd", oneHot.size()-1);
+			
+			session.setAttribute("allOpinion", allOpinion);
+			session.setAttribute("allOpinionEnd", allOpinion.size()-1);
+			
 			System.out.println("로그인아이다"+id);
 			session.setAttribute("id", id);
 			rd.forward(req, resp);

@@ -54,10 +54,10 @@ public class IssueDao extends MyBatisDao{
 		}
 	}
 	
-	public List<Map> yesterIssue() {
+	public List<Map> getSomeRecent() {
 		SqlSession sql = factory.openSession();
 		try {
-			List<Map> list = sql.selectList("issue.yesterIssue");
+			List<Map> list = sql.selectList("issue.getSomeRecent");
 			return list;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -65,7 +65,44 @@ public class IssueDao extends MyBatisDao{
 		}
 	}
 	
+	public List<Map> getOneHot(){
+		SqlSession sql = factory.openSession();
+		try {
+			List<Map> l = sql.selectList("issue.getOneHot");
+			return l;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			sql.close();
+		}
+	}
 	
+	public List<Map> getAllWithOpinionCount(){
+		SqlSession sql = factory.openSession();
+		try {
+			List<Map> l = sql.selectList("issue.getAllWithOpinionCount");
+			return l;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			sql.close();
+		}
+	}
+	
+	public List<Map> getCountByCate(){
+		SqlSession sql = factory.openSession();
+		try {
+			List<Map> l = sql.selectList("issue.getCountByCate2");
+			return l;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			sql.close();
+		}
+	}
 	
 
 }

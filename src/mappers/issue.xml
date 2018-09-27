@@ -4,7 +4,7 @@
 	<insert id="addissue" parameterType="java.util.HashMap">
 		insert into issue values(issue_seq.nextval, #{cate}, #{content}, #{agree}, #{disagree}, #{writer}, sysdate)
 	</insert>
-	
+	  
 	<select id="getissuelist" resultType="java.util.HashMap" >
 		select * from issue order by regdate desc
 	</select>
@@ -13,9 +13,39 @@
 		select * from issue where no = #{no}
 	</select>
 	
-	<select id="yesterIssue" resultType="java.util.HashMap">
-		select * from (select*from issue where regdate >= (sysdate-1)) where rownum between 1 and 3
+	<select id="getSomeRecent" resultType="java.util.HashMap">
+		select * from  (select * from issue where sysdate-regdate &lt;=1 order by regdate desc) where rownem &lt;= 3
+	</select>
+	<!-- *내 코드 : select * from (select*from issue where regdate >= (sysdate-1)) where rownum between 1 and 3 -->
+
+	<select id="getOneHot" resultType="java.util.HashMap">
+		select * from (select * from issue t1 left join (select ino, count(*) cnt from opinion group by ino ) t2 on t1.no = t2.ino order by cnt desc)where rownum =1
+	<!-- *내코드 : select * from (select no,content,sum(choice) from(select issue.no,issue.content,opinion.choice from issue join opinion on issue.no = opinion.ino) group by no, content order by sum(choice) desc) where rownum between 1 and 3-->
 	</select>
 	
-
+	<select id="getAllWithOpinionCount" resultType="java.util.HashMap">
+		select * from issue  t1 left join (select ino, count(*) cnt from opinion group by ino) t2 on t1. no = t2.ino order by regdate desc
+	<!-- *내코드 : select * from (select no,content,sum(choice) from(select issue.no,issue.content,opinion.choice from issue join opinion on issue.no = opinion.ino) group by no, content order by sum(choice) desc) where rownum between 1 and 3-->
+	</select>
+	
+	<select id="getCountByCate1" resultType="java.util.HashMap">
+		select 'life' as cate , count(*) as cnt from issue where cate ='life' 
+			union 
+		select 'etc' as cate , count(*) as cnt from issue where cate ='etc'
+			union 
+		select 'game' as cate , count(*) as cnt from issue where cate ='game'
+			union 
+		select 'it' as cate , count(*) as cnt from issue where cate ='it'
+			union 
+		select 'culture' as cate , count(*) as cnt from issue where cate ='culture'
+			union 
+		select 'sports' as cate , count(*) as cnt from issue where cate ='sports'
+			union
+		select 'politic' as cate , count(*) as cnt from issue where cate ='politic' 
+	</select>
+	
+	<select id="getCountByCate2" resultType="java.util.HashMap">
+		select category.*, nvl(t1.cnt,0) as cnt from category left join (select cate, count(*) as cnt from issue group by cate) t1 on category.key = t1.cate
+	</select>
+	
 </mapper>

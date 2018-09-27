@@ -41,25 +41,5 @@ public class OpinionDao extends MyBatisDao{
 		}
 	}
 	
-	public List<Map> sumOpinions (){
-		SqlSession sql = factory.openSession();
-		try {
-			List<Map> list = sql.selectList("opinion.sumOpinions");
-			return list;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
-	public List<Map> myOpinios(String id){
-		SqlSession sql=factory.openSession();
-		try {
-			List<Map> li = sql.selectList("opinion.myOpinion",id);
-			return li;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 }
