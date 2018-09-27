@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import models.IssueDao;
 
 
 @WebServlet("/index.do")
@@ -39,6 +43,8 @@ public class IndexController extends HttpServlet{
 		}else {
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/home.jsp");	// *개인필기 : req.getRequestDispatcher(""); 안에는 view로 설정할 페이지명(이동시켜야할 페이지)을 작성하면 된다.
 			String id = (String)session.getAttribute("id");
+
+
 			System.out.println("로그인아이다"+id);
 			session.setAttribute("id", id);
 			rd.forward(req, resp);

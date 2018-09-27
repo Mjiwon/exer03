@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.CateDao;
 import models.IssueDao;
 
 @WebServlet("/issue/trend.do")
@@ -18,6 +19,10 @@ public class TrendController extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		IssueDao iDao = new IssueDao();
+		
+		CateDao cd = new CateDao();
+		List<Map> li = cd.selCateCount();
+		System.out.println("TrendControl 25น๘มู li = " + li);
 		
 		List<Map> list = iDao.getissuelist();
 		for(int i = 0; i<list.size();i++) {
@@ -31,8 +36,6 @@ public class TrendController extends HttpServlet{
 		}
 			req.setAttribute("list", list);
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/trend.jsp");
-			rd.forward(req, resp);			
-		
-		
+			rd.forward(req, resp);
 	}
 }

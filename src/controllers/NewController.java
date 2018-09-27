@@ -39,10 +39,14 @@ public class NewController extends HttpServlet{
 			map.put("agree", agree);
 			map.put("disagree", disagree);
 			map.put("writer", writer);
+			
+		Map m = new HashMap<>();
+			m.put("cate", cate);
 
 		IssueDao iDao = new IssueDao();
 		int i = iDao.addIssue(map);
 		System.out.println("°á°ú"+i);
+		
 		if(i == 1) {
 			resp.sendRedirect(req.getContextPath()+"/issue/trend.do");
 		}else {

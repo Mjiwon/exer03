@@ -8,4 +8,17 @@
 	<select id="getSomeByIno" resultType="java.util.HashMap" parameterType="java.lang.Integer">
 		 select * from opinion where ino=#{ino} order by no asc
 	</select>
+	
+	<select id="sumOpinions" resultType="java.util.HashMap">
+		select * from (select no,content,sum(choice) from(select issue.no,issue.content,opinion.choice from issue join opinion on issue.no = opinion.ino) group by no, content order by sum(choice) desc) where rownum between 1 and 3
+	</select>
+	
+	<select id="myOpinion" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select * from (select * from(select * from (select * from issue join opinion on issue.no = opinion.ino) where talker = #{talker} )order by regdate desc)where rownum between 1 and 3
+	</select>
+	
+	<select id="selCateCount" resultType="java.util.HashMap">
+		select cate,count(cate) from issue group by cate
+	</select>
+		
 </mapper>

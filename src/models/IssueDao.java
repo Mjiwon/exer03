@@ -54,6 +54,18 @@ public class IssueDao extends MyBatisDao{
 		}
 	}
 	
+	public List<Map> yesterIssue() {
+		SqlSession sql = factory.openSession();
+		try {
+			List<Map> list = sql.selectList("issue.yesterIssue");
+			return list;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 	
 
 }

@@ -13,4 +13,9 @@
 		select * from issue where no = #{no}
 	</select>
 	
+	<select id="yesterIssue" resultType="java.util.HashMap">
+		select * from (select*from issue where regdate >= (sysdate-1)) where rownum between 1 and 3
+	</select>
+	
+
 </mapper>
